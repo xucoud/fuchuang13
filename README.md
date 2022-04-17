@@ -1,0 +1,11 @@
+# Web页面展示
+- 进入根目录，创建data文件夹
+- 将商品数据，店铺数据，结果文件加入到data文件夹下
+- 在命令行页面中进入项目根目录
+- Windows：
+  - 运行go build .
+  - 运行showRes.exe
+- Linux:
+  - 运行 go build .
+  - yunxing ./showRes
+- 等待项目启动后，在浏览器输入 localhost:8088/show
