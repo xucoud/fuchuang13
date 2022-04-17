@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<h1>价格异常</h1>
+<div id="table1">
+    <table border="1">
+        <tr>
+            <td>Index</td>
+            <td>ItemId</td>
+            <td>ItemName</td>
+            <td>CateNameLv1</td>
+            <td>CateNameLv2</td>
+            <td>CateNameLv3</td>
+            <td>ShopName</td>
+        </tr>
+        {{range $index,$item := .PriceData}}
+        <tr>
+            <td>{{pinc $index}}</td>
+            <td>{{$item.ItemId}}</td>
+            <td>{{$item.ItemName}}</td>
+            <td>{{$item.CateNameLv1}}</td>
+            <td>{{$item.CateNameLv2}}</td>
+            <td>{{$item.CateNameLv3}}</td>
+            <td>{{$item.ShopName}}</td>
+        </tr>
+        {{end}}
+        <tr>
+        </tr>
+    </table>
+    <input type="button" value="上一页" onclick="location='getPre?ppage={{.PricePageNum}}&plimit={{.PriceLimit}}&vpage={{.VolumePageNum}}&vlimit={{.VolumeLimit}}&spage={{.ShopPageNum}}&slimit={{.ShopLimit}}'">
+    <input id="ppgn" type="text" value="{{.PricePageNum}}">
+    <select id="plimit">
+        <option value="default" selected disabled>{{.PriceLimit}}</option>
+        <option id="10">10</option>
+        <option id="15">15</option>
+        <option id="20">20</option>
+        <option id="30">30</option>
+    </select>
+    <input type="button" value="跳转" onclick="location='/show?ppage='+document.getElementById('ppgn').value+'&plimit=' +document.getElementById('plimit').value+ '&vpage={{.VolumePageNum}}&vlimit={{.VolumeLimit}}&spage={{.ShopPageNum}}&slimit={{.ShopLimit}}'">
+    <span>总共有 {{.PricePage}}</span>
+    <input type="button" value="下一页" onclick="location='getNext?ppage={{.PricePageNum}}&plimit={{.PriceLimit}}&vpage={{.VolumePageNum}}&vlimit={{.VolumeLimit}}&spage={{.ShopPageNum}}&slimit={{.ShopLimit}}'">
+</div>
+
+<h1>销量异常</h1>
+<div id="table2">
+    <table border="1">
+        <tr>
+            <td>Index</td>
+            <td>ItemId</td>
+            <td>ItemName</td>
+            <td>CateNameLv1</td>
+            <td>CateNameLv2</td>
+            <td>CateNameLv3</td>
+            <td>ShopName</td>
+        </tr>
+        {{range $index,$item := .VolumeData}}
+        <tr>
+            <td>{{vinc $index}}</td>
+            <td>{{$item.ItemId}}</td>
+            <td>{{$item.ItemName}}</td>
+            <td>{{$item.CateNameLv1}}</td>
+            <td>{{$item.CateNameLv2}}</td>
+            <td>{{$item.CateNameLv3}}</td>
+            <td>{{$item.ShopName}}</td>
+        </tr>
+        {{end}}
+        <tr>
+        </tr>
+    </table>
+    <input type="button" value="上一页" onclick="location='getVPre?ppage={{.PricePageNum}}&plimit={{.PriceLimit}}&vpage={{.VolumePageNum}}&vlimit={{.VolumeLimit}}&spage={{.ShopPageNum}}&slimit={{.ShopLimit}}'">
+    <input id="vpgn" type="text" value="{{.VolumePageNum}}">
+    <select id="vlimit">
+        <option value="default" selected disabled>{{.VolumeLimit}}</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+    </select>
+    <input type="button" value="跳转" onclick="location='show?ppage={{.PricePageNum}}&plimit={{.PriceLimit}}&vpage='+document.getElementById('vpgn').value+'&vlimit=' + document.getElementById('vlimit').value+'&spage={{.ShopPageNum}}&slimit={{.ShopLimit}}'">
+    <span>总共有 {{.VolumePage}} 页</span>
+    <input type="button" value="下一页" onclick="location='getVNext?ppage={{.PricePageNum}}&plimit={{.PriceLimit}}&vpage={{.VolumePageNum}}&vlimit={{.VolumeLimit}}&spage={{.ShopPageNum}}&slimit={{.ShopLimit}}'">
+</div>
+
+<h1>店铺异常</h1>
+<div id="table3">
+    <table border="1">
+        <tr>
+            <td>Index</td>
+            <td>ShopName</td>
+            <td>AbnormalNums</td>
+        </tr>
+        {{range $index,$item := .ShopData}}
+        <tr>
+            <td>{{sinc $index}}</td>
+            <td>{{$item.Name}}</td>
+            <td>{{$item.Num}}</td>
+        </tr>
+        {{end}}
+        <tr>
+        </tr>
+    </table>
+    <input type="button" value="上一页" onclick="location='getSPre?ppage={{.PricePageNum}}&plimit={{.PriceLimit}}&vpage={{.VolumePageNum}}&vlimit={{.VolumeLimit}}&spage={{.ShopPageNum}}&slimit={{.ShopLimit}}'">
+    <input id="spgn" type="text" value="{{.ShopPageNum}}">
+    <select id="slimit">
+        <option value="default" selected disabled>{{.ShopLimit}}</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+    </select>
+    <input type="button" value="跳转" onclick="location='show?ppage={{.PricePageNum}}&plimit={{.PriceLimit}}&spage='+document.getElementById('spgn').value+'&slimit=' + document.getElementById('slimit').value+'&vpage={{.VolumePageNum}}&vlimit={{.VolumeLimit}}'">
+    <span>总共有 {{.ShopPage}} 页</span>
+    <input type="button" value="下一页" onclick="location='getSNext?ppage={{.PricePageNum}}&plimit={{.PriceLimit}}&vpage={{.VolumePageNum}}&vlimit={{.VolumeLimit}}&spage={{.ShopPageNum}}&slimit={{.ShopLimit}}'">
+</div>
+
+<div style="padding-left: 45%"><h1>总异常分类占比</h1></div>
+<div id="container3" style="height: 600px"></div>
+<script type="text/javascript">
+    var dom = document.getElementById("container3");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option;
+
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: 'Access From',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '40',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [{name: "家居建材", value: 262},
+                    {name: "家用电器", value: 25},
+                    {name: "手机数码", value: 223},
+                    {name: "文化玩乐", value: 127},
+                    {name: "服装鞋包", value: 2037},
+                    {name: "母婴用品", value: 353},
+                    {name: "汽配摩托", value: 42},
+                    {name: "生活服务", value: 74},
+                    {name: "百货食品", value: 1432},
+                    {name: "美妆饰品", value: 168},
+                    {name: "运动户外", value: 50},
+                    {name: "其他", value: 220},]
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+</script>
+
+<div style="padding-left: 45%"><h1>销量异常分类占比</h1></div>
+<div id="container1" style="height: 600px"></div>
+<script type="text/javascript">
+    var dom = document.getElementById("container1");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option;
+
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: 'Access From',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '40',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [{name: "家居建材", value: 216},
+                    {name: "家用电器", value: 22},
+                    {name: "手机数码", value: 166},
+                    {name: "文化玩乐", value: 27},
+                    {name: "服装鞋包", value: 1601},
+                    {name: "母婴用品", value: 338},
+                    {name: "汽配摩托", value: 29},
+                    {name: "生活服务", value: 21},
+                    {name: "百货食品", value: 1342},
+                    {name: "美妆饰品", value: 66},
+                    {name: "运动户外", value: 48},
+                    {name: "其他", value: 183},]
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+</script>
+
+<div style="padding-left: 45%"><h1>价格异常分类占比</h1></div>
+<div id="container2" style="height: 600px"></div>
+<script type="text/javascript">
+    var dom = document.getElementById("container2");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option;
+
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: 'Access From',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '40',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [{name: "家居建材", value: 46},
+                    {name: "家用电器", value: 3},
+                    {name: "手机数码", value: 57},
+                    {name: "文化玩乐", value: 100},
+                    {name: "服装鞋包", value: 436},
+                    {name: "母婴用品", value: 15},
+                    {name: "汽配摩托", value: 13},
+                    {name: "生活服务", value: 53},
+                    {name: "百货食品", value: 90},
+                    {name: "美妆饰品", value: 102},
+                    {name: "运动户外", value: 2},
+                    {name: "其他", value: 37},]
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+</script>
+
+</body>
+</html>
