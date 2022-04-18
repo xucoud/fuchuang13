@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -16,14 +15,15 @@ import (
 var enc mahonia.Decoder
 
 var (
-	Price      []string
-	Volume     []string
-	AllData    = make(map[string]*Commodity)
-	PriceData  = make(map[string]int)
-	VolumeData = make(map[string]int)
-	All        = make(map[string]int)
-	ShopData   = make(map[string]int)
-	SD         = make([]Shop, 0)
+	Price        []string
+	Volume       []string
+	AllData      = make(map[string]*Commodity)
+	PriceData    = make(map[string]int)
+	VolumeData   = make(map[string]int)
+	All          = make(map[string]int)
+	ShopData     = make(map[string]int)
+	shopNameToId = make(map[string]string)
+	SD           = make([]Shop, 0)
 )
 
 const (
@@ -31,13 +31,13 @@ const (
 	data07 = "./data/data_202107.tsv"
 	data08 = "./data/data_202108.tsv"
 	data09 = "./data/data_202109.tsv"
-	final  = "./data/vec0_abnormal.txt"
+	final  = "./data/result.txt"
 )
 
 // InitData 初始化数据
 func InitData() {
-	InitAbnormal()
 	InitAllCom()
+	InitAbnormal()
 	getChar()
 }
 
@@ -85,12 +85,6 @@ func readTxt(r io.Reader) error {
 		} else if tmp[1] == "销量异常" {
 			Volume = append(Volume, tmp[0])
 		}
-
-		if _, ok := ShopData[tmp[0]]; ok {
-			ShopData[tmp[0]]++
-		} else {
-			ShopData[tmp[0]] = 1
-		}
 	}
 
 	return nil
@@ -120,9 +114,10 @@ func readTsv(fileName string) {
 			CateNameLv1: enc.ConvertString(tmp[8]),
 			CateNameLv2: enc.ConvertString(tmp[9]),
 			CateNameLv3: enc.ConvertString(tmp[10]),
+			UserId:      enc.ConvertString(tmp[19]),
 			ShopName:    enc.ConvertString(tmp[20]),
 		}
-
+		shopNameToId[AllData[tmp[1]].UserId] = AllData[tmp[1]].ShopName
 	}
 	fmt.Println("readEachLineReader spend : ", time.Now().Sub(start1))
 }
@@ -145,6 +140,12 @@ func getChar() {
 		} else {
 			All[AllData[v].CateNameLv1] = 1
 		}
+
+		if _, ok := ShopData[AllData[v].UserId]; ok {
+			ShopData[AllData[v].UserId]++
+		} else {
+			ShopData[AllData[v].UserId] = 1
+		}
 	}
 	for _, v := range Volume {
 		AllData[v].Type = "销量异常"
@@ -158,19 +159,32 @@ func getChar() {
 		} else {
 			All[AllData[v].CateNameLv1] = 1
 		}
+
+		if _, ok := ShopData[AllData[v].UserId]; ok {
+			ShopData[AllData[v].UserId]++
+		} else {
+			ShopData[AllData[v].UserId] = 1
+		}
 	}
 
 	for k, v1 := range ShopData {
-		if k == "\\n" {
+		if k == "\\n" || k == "" {
 			continue
 		}
-		if v, ok := AllData[k]; ok {
-			t := Shop{
-				Name: v.ShopName,
-				Num:  v1,
-			}
-			SD = append(SD, t)
+		t := Shop{
+			Id:   k,
+			Name: shopNameToId[k],
+			Num:  v1,
 		}
+		SD = append(SD, t)
+		//if v, ok := AllData[k]; ok {
+		//	t := Shop{
+		//		Id:   v.UserId,
+		//		Name: v.ShopName,
+		//		Num:  v1,
+		//	}
+		//	SD = append(SD, t)
+		//}
 	}
 	sort.Slice(SD, func(i, j int) bool {
 		return SD[i].Num > SD[j].Num
@@ -179,14 +193,4 @@ func getChar() {
 	//fmt.Println(VolumeData)
 	//fmt.Println(PriceData)
 	//fmt.Println(All)
-}
-
-func mapToString(m map[string]int) string {
-	res := "{"
-	for k, v := range m {
-		res = res + k + ":" + strconv.Itoa(v) + ","
-	}
-	strings.TrimRight(res, ",")
-	res = res + "}"
-	return res
 }

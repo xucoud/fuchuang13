@@ -6,11 +6,13 @@ type Commodity struct {
 	CateNameLv1 string
 	CateNameLv2 string
 	CateNameLv3 string
+	UserId      string
 	ShopName    string
 	Type        string
 }
 
 type Shop struct {
+	Id   string
 	Name string
 	Num  int
 }

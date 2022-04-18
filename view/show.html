@@ -92,12 +92,14 @@
     <table border="1">
         <tr>
             <td>Index</td>
+            <td>UserId</td>
             <td>ShopName</td>
             <td>AbnormalNums</td>
         </tr>
         {{range $index,$item := .ShopData}}
         <tr>
             <td>{{sinc $index}}</td>
+            <td>{{$item.Id}}</td>
             <td>{{$item.Name}}</td>
             <td>{{$item.Num}}</td>
         </tr>
@@ -160,81 +162,21 @@
                 labelLine: {
                     show: false
                 },
-                data: [{name: "家居建材", value: 262},
-                    {name: "家用电器", value: 25},
-                    {name: "手机数码", value: 223},
-                    {name: "文化玩乐", value: 127},
-                    {name: "服装鞋包", value: 2037},
-                    {name: "母婴用品", value: 353},
-                    {name: "汽配摩托", value: 42},
-                    {name: "生活服务", value: 74},
-                    {name: "百货食品", value: 1432},
-                    {name: "美妆饰品", value: 168},
-                    {name: "运动户外", value: 50},
-                    {name: "其他", value: 220},]
-            }
-        ]
-    };
-
-    if (option && typeof option === 'object') {
-        myChart.setOption(option);
-    }
-
-</script>
-
-<div style="padding-left: 45%"><h1>销量异常分类占比</h1></div>
-<div id="container1" style="height: 600px"></div>
-<script type="text/javascript">
-    var dom = document.getElementById("container1");
-    var myChart = echarts.init(dom);
-    var app = {};
-    var option;
-
-    option = {
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            top: '5%',
-            left: 'center'
-        },
-        series: [
-            {
-                name: 'Access From',
-                type: 'pie',
-                radius: ['40%', '70%'],
-                avoidLabelOverlap: false,
-                itemStyle: {
-                    borderRadius: 10,
-                    borderColor: '#fff',
-                    borderWidth: 2
-                },
-                label: {
-                    show: false,
-                    position: 'center'
-                },
-                emphasis: {
-                    label: {
-                        show: true,
-                        fontSize: '40',
-                        fontWeight: 'bold'
-                    }
-                },
-                labelLine: {
-                    show: false
-                },
-                data: [{name: "家居建材", value: 216},
-                    {name: "家用电器", value: 22},
-                    {name: "手机数码", value: 166},
-                    {name: "文化玩乐", value: 27},
-                    {name: "服装鞋包", value: 1601},
-                    {name: "母婴用品", value: 338},
-                    {name: "汽配摩托", value: 29},
-                    {name: "生活服务", value: 21},
-                    {name: "百货食品", value: 1342},
-                    {name: "美妆饰品", value: 66},
-                    {name: "运动户外", value: 48},
-                    {name: "其他", value: 183},]
+                data: [{name: "家居建材", value: 35364},
+                    {name: "家用电器", value: 4621},
+                    {name: "手机数码", value: 26417},
+                    {name: "文化玩乐", value: 7340},
+                    {name: "服装鞋包", value: 32818},
+                    {name: "母婴用品", value: 11327},
+                    {name: "汽配摩托", value: 1989},
+                    {name: "游戏话费", value: 2329},
+                    {name: "生活服务", value: 7183},
+                    {name: "百货食品", value: 54702},
+                    {name: "盒马", value: 1078},
+                    {name: "美妆饰品", value: 18781},
+                    {name: "运动户外", value: 5744},
+                    {name: "数字阅读", value: 4},
+                    {name: "其他", value: 26525},]
             }
         ]
     };
@@ -286,18 +228,86 @@
                 labelLine: {
                     show: false
                 },
-                data: [{name: "家居建材", value: 46},
-                    {name: "家用电器", value: 3},
-                    {name: "手机数码", value: 57},
-                    {name: "文化玩乐", value: 100},
-                    {name: "服装鞋包", value: 436},
-                    {name: "母婴用品", value: 15},
-                    {name: "汽配摩托", value: 13},
-                    {name: "生活服务", value: 53},
-                    {name: "百货食品", value: 90},
-                    {name: "美妆饰品", value: 102},
-                    {name: "运动户外", value: 2},
-                    {name: "其他", value: 37},]
+                data: [{name: "家居建材", value: 4281},
+                    {name: "家用电器", value: 859},
+                    {name: "手机数码", value: 2219},
+                    {name: "文化玩乐", value: 1914},
+                    {name: "服装鞋包", value: 8064},
+                    {name: "母婴用品", value: 628},
+                    {name: "汽配摩托", value: 471},
+                    {name: "游戏话费", value: 100},
+                    {name: "生活服务", value: 1042},
+                    {name: "百货食品", value: 1452},
+                    {name: "美妆饰品", value: 5808},
+                    {name: "运动户外", value: 641},
+                    {name: "盒马", value: 1},
+                    {name: "其他", value: 5238},]
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+</script>
+
+<div style="padding-left: 45%"><h1>销量异常分类占比</h1></div>
+<div id="container1" style="height: 600px"></div>
+<script type="text/javascript">
+    var dom = document.getElementById("container1");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option;
+
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: 'Access From',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '40',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [{name: "家居建材", value: 31083},
+                    {name: "家用电器", value: 3762},
+                    {name: "手机数码", value: 24198},
+                    {name: "文化玩乐", value: 5426},
+                    {name: "服装鞋包", value: 24754},
+                    {name: "母婴用品", value: 10699},
+                    {name: "汽配摩托", value: 1519},
+                    {name: "游戏话费", value: 2229},
+                    {name: "生活服务", value: 6141},
+                    {name: "百货食品", value: 53250},
+                    {name: "美妆饰品", value: 12973},
+                    {name: "运动户外", value: 5103},
+                    {name: "数字阅读", value: 4},
+                    {name: "盒马", value: 1077},
+                    {name: "其他", value: 21287},]
             }
         ]
     };
